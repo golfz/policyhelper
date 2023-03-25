@@ -3,8 +3,8 @@ github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/golfz/goliath/v2 v2.0.13 h1:NtasKD/V5RAuYvGCcHwza9xeBFfj3QGdno6jkvVUsxk=
 github.com/golfz/goliath/v2 v2.0.13/go.mod h1:it/NCXTYdp5lnd5Y5ukyJJ/nQek+WshJY8nbMgWKOus=
-github.com/golfz/policy v0.0.0-20230325064208-4e7ed2afab67 h1:SjeYXj899yBjO7IoX2XuVyU5zOa5RUrLjyr+2GQjZGQ=
-github.com/golfz/policy v0.0.0-20230325064208-4e7ed2afab67/go.mod h1:+SWN+z0uRTBtR9hvdiTYEz9+BEDvRUYc5fyXqdb7VcY=
+github.com/golfz/policy v0.0.0-20230325080450-bbbdab8be159 h1:1/G47QOX98OfOjZPc6D4U4BA7eUMf+gi0ICYUEO1caU=
+github.com/golfz/policy v0.0.0-20230325080450-bbbdab8be159/go.mod h1:+SWN+z0uRTBtR9hvdiTYEz9+BEDvRUYc5fyXqdb7VcY=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=

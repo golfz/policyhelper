@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/golfz/goliath/v2 v2.0.13
-	github.com/golfz/policy v0.0.0-20230325064208-4e7ed2afab67
+	github.com/golfz/policy v0.0.0-20230325080450-bbbdab8be159
 	github.com/stretchr/testify v1.8.2
 )
 
