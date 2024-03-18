@@ -15,7 +15,7 @@ func GetPolicy(ctx goliath.Goliath) policy.Policy {
 			Version:   0,
 			PolicyID:  "",
 			Statement: nil,
-			Error:     errors.New("cannot do type assertion!"),
+			Error:     errors.New("cannot do type assertion"),
 		}
 	}
 	return p
