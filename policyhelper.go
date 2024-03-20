@@ -1,7 +1,6 @@
 package policyhelper
 
 import (
-	"errors"
 	"github.com/golfz/goliath/v2"
 	"github.com/golfz/policy"
 	"github.com/golfz/policyhelper/kpolicy"
@@ -15,16 +14,11 @@ import (
 // and don't need to change the code if the policy struct is changed
 // and don't need to change the current code
 
-func GetPolicy(ctx goliath.Goliath) policy.Policy {
+func GetPolicy(ctx goliath.Goliath) policy.Validator {
 	ctxPolicy := ctx.Request().Context().Value(kpolicy.UserPolicy)
-	p, ok := ctxPolicy.(policy.Policy)
+	p, ok := ctxPolicy.(policy.ValidationController)
 	if !ok {
-		return policy.Policy{
-			Version:   0,
-			PolicyID:  "",
-			Statement: nil,
-			Error:     errors.New("cannot do type assertion"),
-		}
+		return &policy.ValidationController{}
 	}
-	return p
+	return &p
 }
