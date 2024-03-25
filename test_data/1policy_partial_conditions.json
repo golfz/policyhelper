@@ -1,0 +1,44 @@
+[
+    {
+        "Version": 1,
+        "PolicyID": "policy_A",
+        "Statements": [
+            {
+                "Effect": "Allow",
+                "Resource": "res:::resource_1",
+                "Actions": [
+                    "act:::resource_1:action_1",
+                    "act:::resource_1:action_2"
+                ],
+                "Conditions": {
+                    "AtLeastOne": {
+                        "prop:::resource_1:prop_1": {
+                            "StringEqual": "hello"
+                        },
+                        "prop:::resource_1:prop_2": {
+                            "StringIn": ["world", "hello"]
+                        }
+                    }
+                }
+            },
+            {
+                "Effect": "Deny",
+                "Resource": "res:::resource_2",
+                "Actions": [
+                    "act:::resource_2:action_1",
+                    "act:::resource_2:action_2"
+                ],
+                "Conditions": {
+                    "MustHaveAll": {
+                        "prop:::resource_2:prop_3": {
+                            "FloatEqual": 1.1
+                        },
+                        "prop:::resource_2:prop_4": {
+                            "BooleanEqual": false
+                        }
+                    }
+                }
+            }
+        ]
+    }
+]

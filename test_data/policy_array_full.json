@@ -1,0 +1,230 @@
+[
+    {
+        "Version": 1,
+        "PolicyID": "policy_A",
+        "Statements": [
+            {
+                "Effect": "Allow",
+                "Resource": "res:::resource_1",
+                "Actions": [
+                    "act:::resource_1:action_1",
+                    "act:::resource_1:action_2"
+                ],
+                "Conditions": {
+                    "AtLeastOne": {
+                        "prop:::resource_1:prop_1": {
+                            "StringEqual": "hello",
+                            "StringIn": ["world", "hello"],
+                            "IntegerEqual": 1,
+                            "IntegerIn": [1, 2],
+                            "FloatEqual": 1.1,
+                            "FloatIn": [1.1, 2.2],
+                            "BooleanEqual": true,
+                            "UserPropEqual": "user:::user_1:prop_1"
+                        },
+                        "prop:::resource_1:prop_2": {
+                            "StringEqual": "hello",
+                            "StringIn": ["world", "hello"],
+                            "IntegerEqual": 1,
+                            "IntegerIn": [1, 2],
+                            "FloatEqual": 1.1,
+                            "FloatIn": [1.1, 2.2],
+                            "BooleanEqual": true,
+                            "UserPropEqual": "user:::user_1:prop_1"
+                        }
+                    },
+                    "MustHaveAll": {
+                        "prop:::resource_1:prop_3": {
+                            "StringEqual": "hello",
+                            "StringIn": ["world", "hello"],
+                            "IntegerEqual": 1,
+                            "IntegerIn": [1, 2],
+                            "FloatEqual": 1.1,
+                            "FloatIn": [1.1, 2.2],
+                            "BooleanEqual": true,
+                            "UserPropEqual": "user:::user_1:prop_1"
+                        },
+                        "prop:::resource_1:prop_4": {
+                            "StringEqual": "hello",
+                            "StringIn": ["world", "hello"],
+                            "IntegerEqual": 1,
+                            "IntegerIn": [1, 2],
+                            "FloatEqual": 1.1,
+                            "FloatIn": [1.1, 2.2],
+                            "BooleanEqual": true,
+                            "UserPropEqual": "user:::user_1:prop_1"
+                        }
+                    }
+                }
+            },
+            {
+                "Effect": "Deny",
+                "Resource": "res:::resource_2",
+                "Actions": [
+                    "act:::resource_2:action_1",
+                    "act:::resource_2:action_2"
+                ],
+                "Conditions": {
+                    "AtLeastOne": {
+                        "prop:::resource_2:prop_1": {
+                            "StringEqual": "hello",
+                            "StringIn": ["world", "hello"],
+                            "IntegerEqual": 1,
+                            "IntegerIn": [1, 2],
+                            "FloatEqual": 1.1,
+                            "FloatIn": [1.1, 2.2],
+                            "BooleanEqual": true,
+                            "UserPropEqual": "user:::user_1:prop_1"
+                        },
+                        "prop:::resource_2:prop_2": {
+                            "StringEqual": "hello",
+                            "StringIn": ["world", "hello"],
+                            "IntegerEqual": 1,
+                            "IntegerIn": [1, 2],
+                            "FloatEqual": 1.1,
+                            "FloatIn": [1.1, 2.2],
+                            "BooleanEqual": true,
+                            "UserPropEqual": "user:::user_1:prop_1"
+                        }
+                    },
+                    "MustHaveAll": {
+                        "prop:::resource_2:prop_3": {
+                            "StringEqual": "hello",
+                            "StringIn": ["world", "hello"],
+                            "IntegerEqual": 1,
+                            "IntegerIn": [1, 2],
+                            "FloatEqual": 1.1,
+                            "FloatIn": [1.1, 2.2],
+                            "BooleanEqual": true,
+                            "UserPropEqual": "user:::user_1:prop_1"
+                        },
+                        "prop:::resource_2:prop_4": {
+                            "StringEqual": "hello",
+                            "StringIn": ["world", "hello"],
+                            "IntegerEqual": 1,
+                            "IntegerIn": [1, 2],
+                            "FloatEqual": 1.1,
+                            "FloatIn": [1.1, 2.2],
+                            "BooleanEqual": true,
+                            "UserPropEqual": "user:::user_1:prop_1"
+                        }
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "Version": 1,
+        "PolicyID": "policy_B",
+        "Statements": [
+            {
+                "Effect": "Allow",
+                "Resource": "res:::resource_1",
+                "Actions": [
+                    "act:::resource_1:action_1",
+                    "act:::resource_1:action_2"
+                ],
+                "Conditions": {
+                    "AtLeastOne": {
+                        "prop:::resource_1:prop_1": {
+                            "StringEqual": "hello",
+                            "StringIn": ["world", "hello"],
+                            "IntegerEqual": 1,
+                            "IntegerIn": [1, 2],
+                            "FloatEqual": 1.1,
+                            "FloatIn": [1.1, 2.2],
+                            "BooleanEqual": true,
+                            "UserPropEqual": "user:::user_1:prop_1"
+                        },
+                        "prop:::resource_1:prop_2": {
+                            "StringEqual": "hello",
+                            "StringIn": ["world", "hello"],
+                            "IntegerEqual": 1,
+                            "IntegerIn": [1, 2],
+                            "FloatEqual": 1.1,
+                            "FloatIn": [1.1, 2.2],
+                            "BooleanEqual": true,
+                            "UserPropEqual": "user:::user_1:prop_1"
+                        }
+                    },
+                    "MustHaveAll": {
+                        "prop:::resource_1:prop_3": {
+                            "StringEqual": "hello",
+                            "StringIn": ["world", "hello"],
+                            "IntegerEqual": 1,
+                            "IntegerIn": [1, 2],
+                            "FloatEqual": 1.1,
+                            "FloatIn": [1.1, 2.2],
+                            "BooleanEqual": true,
+                            "UserPropEqual": "user:::user_1:prop_1"
+                        },
+                        "prop:::resource_1:prop_4": {
+                            "StringEqual": "hello",
+                            "StringIn": ["world", "hello"],
+                            "IntegerEqual": 1,
+                            "IntegerIn": [1, 2],
+                            "FloatEqual": 1.1,
+                            "FloatIn": [1.1, 2.2],
+                            "BooleanEqual": true,
+                            "UserPropEqual": "user:::user_1:prop_1"
+                        }
+                    }
+                }
+            },
+            {
+                "Effect": "Deny",
+                "Resource": "res:::resource_2",
+                "Actions": [
+                    "act:::resource_2:action_1",
+                    "act:::resource_2:action_2"
+                ],
+                "Conditions": {
+                    "AtLeastOne": {
+                        "prop:::resource_2:prop_1": {
+                            "StringEqual": "hello",
+                            "StringIn": ["world", "hello"],
+                            "IntegerEqual": 1,
+                            "IntegerIn": [1, 2],
+                            "FloatEqual": 1.1,
+                            "FloatIn": [1.1, 2.2],
+                            "BooleanEqual": true,
+                            "UserPropEqual": "user:::user_1:prop_1"
+                        },
+                        "prop:::resource_2:prop_2": {
+                            "StringEqual": "hello",
+                            "StringIn": ["world", "hello"],
+                            "IntegerEqual": 1,
+                            "IntegerIn": [1, 2],
+                            "FloatEqual": 1.1,
+                            "FloatIn": [1.1, 2.2],
+                            "BooleanEqual": true,
+                            "UserPropEqual": "user:::user_1:prop_1"
+                        }
+                    },
+                    "MustHaveAll": {
+                        "prop:::resource_2:prop_3": {
+                            "StringEqual": "hello",
+                            "StringIn": ["world", "hello"],
+                            "IntegerEqual": 1,
+                            "IntegerIn": [1, 2],
+                            "FloatEqual": 1.1,
+                            "FloatIn": [1.1, 2.2],
+                            "BooleanEqual": true,
+                            "UserPropEqual": "user:::user_1:prop_1"
+                        },
+                        "prop:::resource_2:prop_4": {
+                            "StringEqual": "hello",
+                            "StringIn": ["world", "hello"],
+                            "IntegerEqual": 1,
+                            "IntegerIn": [1, 2],
+                            "FloatEqual": 1.1,
+                            "FloatIn": [1.1, 2.2],
+                            "BooleanEqual": true,
+                            "UserPropEqual": "user:::user_1:prop_1"
+                        }
+                    }
+                }
+            }
+        ]
+    }
+]
