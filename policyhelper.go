@@ -17,12 +17,12 @@ func AddPolicyToContext(ctx context.Context, policies []byte, userGetter policy.
 		Policies:           p,
 		UserPropertyGetter: userGetter,
 	}
-	ctx = context.WithValue(ctx, kpolicy.UserPolicyKey, ctrl)
+	ctx = context.WithValue(ctx, kpolicy.UserPolicy, ctrl)
 	return ctx, nil
 }
 
 func GetPolicy(ctx goliath.Goliath) policy.Validator {
-	p, ok := ctx.Request().Context().Value(kpolicy.UserPolicyKey).(policy.ValidationController)
+	p, ok := ctx.Request().Context().Value(kpolicy.UserPolicy).(policy.ValidationController)
 	if !ok {
 		return &policy.ValidationController{
 			Err: errors.New("policy not found in context"),

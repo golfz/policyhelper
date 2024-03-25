@@ -30,7 +30,7 @@ func TestAddPolicyToContext(t *testing.T) {
 
 	// Act
 	ctx, err = AddPolicyToContext(ctx, b, userGetter)
-	p := ctx.Value(kpolicy.UserPolicyKey)
+	p := ctx.Value(kpolicy.UserPolicy)
 
 	// Assert
 	if err != nil {
