@@ -1,7 +1,7 @@
 package kpolicy
 
-type AuthKeyConstant int
+type UserPolicyConstant string
 
 const (
-	UserPolicy AuthKeyConstant = iota
+	UserPolicyKey UserPolicyConstant = "user_policy_key_in_context"
 )
