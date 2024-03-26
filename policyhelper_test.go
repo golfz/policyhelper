@@ -17,7 +17,19 @@ func (d DummyUserGetter) GetUserProperty(key string) string {
 	return ""
 }
 
+type MockValidationOverrider struct {
+	Result    policy.ResultEffect
+	Error     error
+	WasCalled bool
+}
+
+func (mock *MockValidationOverrider) OverridePolicyValidation(policies []policy.Policy, UserPropertyGetter policy.UserPropertyGetter, res policy.Resource) (policy.ResultEffect, error) {
+	mock.WasCalled = true
+	return mock.Result, mock.Error
+}
+
 func TestAddPolicyToContext(t *testing.T) {
+
 	// Arrange
 	ctx := context.Background()
 	var err error
@@ -29,7 +41,7 @@ func TestAddPolicyToContext(t *testing.T) {
 	userGetter := DummyUserGetter{}
 
 	// Act
-	ctx, err = AddPolicyToContext(ctx, b, userGetter)
+	ctx, err = AddPolicyToContext(ctx, b, userGetter, nil)
 	p := ctx.Value(kpolicy.UserPolicy)
 
 	// Assert
@@ -46,10 +58,11 @@ func TestAddPolicyToContext(t *testing.T) {
 
 func TestGetPolicy(t *testing.T) {
 	tests := []struct {
-		name     string
-		file     string
-		resource policy.Resource
-		expected policy.ResultEffect
+		name                    string
+		file                    string
+		resource                policy.Resource
+		mockValidationOverrider policy.ValidationOverrider
+		expected                policy.ResultEffect
 	}{
 		{
 			name: "[partial conditions] matched Deny statement, expect DENIED",
@@ -66,7 +79,8 @@ func TestGetPolicy(t *testing.T) {
 					},
 				},
 			},
-			expected: policy.DENIED,
+			mockValidationOverrider: nil,
+			expected:                policy.DENIED,
 		},
 		{
 			name: "[partial conditions] matched Allow statement, expect ALLOWED",
@@ -80,30 +94,51 @@ func TestGetPolicy(t *testing.T) {
 					},
 				},
 			},
-			expected: policy.ALLOWED,
+			mockValidationOverrider: nil,
+			expected:                policy.ALLOWED,
+		},
+		{
+			name: "Override ALLOWED case to be DENIED case, expect DENIED",
+			file: "test_data/1policy_partial_conditions.json",
+			resource: policy.Resource{
+				Resource: "res:::resource_1",
+				Action:   "act:::resource_1:action_1",
+				Properties: policy.Property{
+					String: map[string]string{
+						"prop:::resource_1:prop_1": "hello",
+					},
+				},
+			},
+			mockValidationOverrider: &MockValidationOverrider{
+				Result: policy.DENIED,
+				Error:  nil,
+			},
+			expected: policy.DENIED,
 		},
 	}
 
 	for _, tt := range tests {
-		// Arrange
-		ctx := context.Background()
-		b, _ := os.ReadFile(tt.file)
-		userGetter := DummyUserGetter{}
-		ctx, _ = AddPolicyToContext(ctx, b, userGetter)
-		gtx := goliath.New()
-		r, _ := http.NewRequestWithContext(ctx, http.MethodGet, "/", nil)
-		gtx.SetRequest(r)
+		t.Run(tt.name, func(t *testing.T) {
+			// Arrange
+			ctx := context.Background()
+			b, _ := os.ReadFile(tt.file)
+			userGetter := DummyUserGetter{}
+			ctx, _ = AddPolicyToContext(ctx, b, userGetter, tt.mockValidationOverrider)
+			gtx := goliath.New()
+			r, _ := http.NewRequestWithContext(ctx, http.MethodGet, "/", nil)
+			gtx.SetRequest(r)
 
-		// Act
-		p := GetPolicy(gtx)
-		result, err := p.IsAccessAllowed(tt.resource)
+			// Act
+			p := GetPolicy(gtx)
+			result, err := p.IsAccessAllowed(tt.resource)
 
-		// Assert
-		if err != nil {
-			t.Error(err)
-		}
-		if result != tt.expected {
-			t.Errorf("Expected %v, but got %v", tt.expected, result)
-		}
+			// Assert
+			if err != nil {
+				t.Error(err)
+			}
+			if result != tt.expected {
+				t.Errorf("Expected %v, but got %v", tt.expected, result)
+			}
+		})
 	}
 }

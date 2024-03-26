@@ -8,14 +8,15 @@ import (
 	"github.com/golfz/policyhelper/kpolicy"
 )
 
-func AddPolicyToContext(ctx context.Context, policies []byte, userGetter policy.UserPropertyGetter) (context.Context, error) {
+func AddPolicyToContext(ctx context.Context, policies []byte, userGetter policy.UserPropertyGetter, validationOverrider policy.ValidationOverrider) (context.Context, error) {
 	p, err := policy.ParsePolicyArray(policies)
 	if err != nil {
 		return nil, err
 	}
 	ctrl := policy.ValidationController{
-		Policies:           p,
-		UserPropertyGetter: userGetter,
+		Policies:            p,
+		UserPropertyGetter:  userGetter,
+		ValidationOverrider: validationOverrider,
 	}
 	ctx = context.WithValue(ctx, kpolicy.UserPolicy, ctrl)
 	return ctx, nil
