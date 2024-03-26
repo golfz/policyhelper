@@ -56,6 +56,63 @@ func TestAddPolicyToContext(t *testing.T) {
 	}
 }
 
+func TestAddPolicyToContext_UseValidatorOverrideWithoutAnyData(t *testing.T) {
+	t.Run("nil policies", func(t *testing.T) {
+		// Arrange
+		ctx := context.Background()
+
+		// Act
+		ctx, errAdd := AddPolicyToContext(ctx, nil, nil, &MockValidationOverrider{
+			Result: policy.ALLOWED,
+			Error:  nil,
+		})
+		gtx := goliath.New()
+		r, _ := http.NewRequestWithContext(ctx, http.MethodGet, "/", nil)
+		gtx.SetRequest(r)
+		validator := GetPolicy(gtx)
+		result, errValidate := validator.IsAccessAllowed(policy.Resource{})
+
+		// Assert
+		if errAdd != nil {
+			t.Error("Expected nil, but got", errAdd)
+		}
+		if errValidate != nil {
+			t.Error("Expected nil, but got", errValidate)
+		}
+		if result != policy.ALLOWED {
+			t.Errorf("Expected ALLOWED, but got %v", result)
+		}
+	})
+
+	t.Run("empty slice bytes policies", func(t *testing.T) {
+		// Arrange
+		ctx := context.Background()
+
+		// Act
+		ctx, errAdd := AddPolicyToContext(ctx, []byte{}, nil, &MockValidationOverrider{
+			Result: policy.ALLOWED,
+			Error:  nil,
+		})
+		gtx := goliath.New()
+		r, _ := http.NewRequestWithContext(ctx, http.MethodGet, "/", nil)
+		gtx.SetRequest(r)
+		validator := GetPolicy(gtx)
+		result, errValidate := validator.IsAccessAllowed(policy.Resource{})
+
+		// Assert
+		if errAdd != nil {
+			t.Error("Expected nil, but got", errAdd)
+		}
+		if errValidate != nil {
+			t.Error("Expected nil, but got", errValidate)
+		}
+		if result != policy.ALLOWED {
+			t.Errorf("Expected ALLOWED, but got %v", result)
+		}
+	})
+
+}
+
 func TestGetPolicy(t *testing.T) {
 	tests := []struct {
 		name                    string
