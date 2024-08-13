@@ -3,8 +3,8 @@ package policyhelper
 import (
 	"context"
 	"github.com/golfz/goliath/v2"
-	"github.com/golfz/policy"
-	"github.com/golfz/policyhelper/kpolicy"
+	"github.com/golfz/policy/v2"
+	"github.com/golfz/policyhelper/v2/kpolicy"
 	"net/http"
 	"os"
 	"reflect"
