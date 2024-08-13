@@ -18,12 +18,12 @@ func (d DummyUserGetter) GetUserProperty(key string) string {
 }
 
 type MockValidationOverrider struct {
-	Result    policy.ResultEffect
+	Result    bool
 	Error     error
 	WasCalled bool
 }
 
-func (mock *MockValidationOverrider) OverridePolicyValidation(policies []policy.Policy, UserPropertyGetter policy.UserPropertyGetter, res policy.Resource) (policy.ResultEffect, error) {
+func (mock *MockValidationOverrider) OverridePolicyValidation(policies []policy.Policy, UserPropertyGetter policy.UserPropertyGetter, res policy.Resource) (bool, error) {
 	mock.WasCalled = true
 	return mock.Result, mock.Error
 }
@@ -70,7 +70,7 @@ func TestAddPolicyToContext_UseValidatorOverrideWithoutAnyData(t *testing.T) {
 		r, _ := http.NewRequestWithContext(ctx, http.MethodGet, "/", nil)
 		gtx.SetRequest(r)
 		validator := GetPolicy(gtx)
-		result, errValidate := validator.IsAccessAllowed(policy.Resource{})
+		result, errValidate := validator.IsAccessAllowed()
 
 		// Assert
 		if errAdd != nil {
@@ -97,7 +97,7 @@ func TestAddPolicyToContext_UseValidatorOverrideWithoutAnyData(t *testing.T) {
 		r, _ := http.NewRequestWithContext(ctx, http.MethodGet, "/", nil)
 		gtx.SetRequest(r)
 		validator := GetPolicy(gtx)
-		result, errValidate := validator.IsAccessAllowed(policy.Resource{})
+		result, errValidate := validator.IsAccessAllowed()
 
 		// Assert
 		if errAdd != nil {
@@ -119,7 +119,7 @@ func TestGetPolicy(t *testing.T) {
 		file                    string
 		resource                policy.Resource
 		mockValidationOverrider policy.ValidationOverrider
-		expected                policy.ResultEffect
+		expected                bool
 	}{
 		{
 			name: "[partial conditions] matched Deny statement, expect DENIED",
@@ -185,9 +185,24 @@ func TestGetPolicy(t *testing.T) {
 			r, _ := http.NewRequestWithContext(ctx, http.MethodGet, "/", nil)
 			gtx.SetRequest(r)
 
-			// Act
 			p := GetPolicy(gtx)
-			result, err := p.IsAccessAllowed(tt.resource)
+			p.SetResource(tt.resource.Resource)
+			p.SetAction(tt.resource.Action)
+			for k, v := range tt.resource.Properties.String {
+				p.AddPropertyString(k, v)
+			}
+			for k, v := range tt.resource.Properties.Integer {
+				p.AddPropertyInteger(k, v)
+			}
+			for k, v := range tt.resource.Properties.Float {
+				p.AddPropertyFloat(k, v)
+			}
+			for k, v := range tt.resource.Properties.Boolean {
+				p.AddPropertyBoolean(k, v)
+			}
+
+			// Act
+			result, err := p.IsAccessAllowed()
 
 			// Assert
 			if err != nil {
