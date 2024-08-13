@@ -1,0 +1,6 @@
+github.com/golfz/goliath/v2 v2.0.13 h1:NtasKD/V5RAuYvGCcHwza9xeBFfj3QGdno6jkvVUsxk=
+github.com/golfz/goliath/v2 v2.0.13/go.mod h1:it/NCXTYdp5lnd5Y5ukyJJ/nQek+WshJY8nbMgWKOus=
+github.com/golfz/policy v1.1.0 h1:nAG2yJUw2OffiBHfJoB2bL9wGIWef/sQnd5YLg2qq98=
+github.com/golfz/policy v1.1.0/go.mod h1:oJlYoPt6lajTx/I43al/f8PjKsA99djPtzmDFNdgbwU=
+github.com/golfz/policyhelper v1.1.0 h1:T/MdZDuNQPB2YsTP0w+YYpLxlMKa3L8yeDLNiapcUy4=
+github.com/golfz/policyhelper v1.1.0/go.mod h1:LQM/cNWdHDDHIvxxxV4EAxN/ikZJBvbimDroyYf9SPA=
