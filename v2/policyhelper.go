@@ -4,13 +4,12 @@ import (
 	"context"
 	"errors"
 	"github.com/golfz/goliath/v2"
-	"github.com/golfz/policy/v2"
-	"github.com/golfz/policyhelper/v2/kpolicy"
 )
 
-type Validator interface {
+type PolicyValidator interface {
 	SetResource(resource string)
 	SetAction(action string)
+	SetError(err error)
 	AddPropertyString(key string, value string)
 	AddPropertyInteger(key string, value int)
 	AddPropertyFloat(key string, value float64)
@@ -18,26 +17,34 @@ type Validator interface {
 	IsAccessAllowed() (bool, error)
 }
 
-func AddPolicyToContext(ctx context.Context, policies []byte, userGetter policy.UserPropertyGetter, validationOverrider policy.ValidationOverrider) (context.Context, error) {
-	p, err := policy.ParsePolicyArray(policies)
-	if err != nil {
-		return nil, err
-	}
-	ctrl := policy.ValidationController{
-		Policies:            p,
-		UserPropertyGetter:  userGetter,
-		ValidationOverrider: validationOverrider,
-	}
-	ctx = context.WithValue(ctx, kpolicy.UserPolicy, ctrl)
+type errPolicyValidator struct {
+	err error
+}
+
+func (p *errPolicyValidator) SetResource(resource string)                {}
+func (p *errPolicyValidator) SetAction(action string)                    {}
+func (p *errPolicyValidator) AddPropertyString(key string, value string) {}
+func (p *errPolicyValidator) AddPropertyInteger(key string, value int)   {}
+func (p *errPolicyValidator) AddPropertyFloat(key string, value float64) {}
+func (p *errPolicyValidator) AddPropertyBoolean(key string, value bool)  {}
+func (p *errPolicyValidator) IsAccessAllowed() (bool, error) {
+	return false, p.err
+}
+func (p *errPolicyValidator) SetError(err error) {
+	p.err = err
+}
+
+func AddPolicyValidatorToContext(ctx context.Context, p PolicyValidator) (context.Context, error) {
+	ctx = context.WithValue(ctx, keyUserPolicy, p)
 	return ctx, nil
 }
 
-func GetPolicy(ctx goliath.Goliath) Validator {
-	p, ok := ctx.Request().Context().Value(kpolicy.UserPolicy).(policy.ValidationController)
+func GetPolicy(ctx goliath.Goliath) PolicyValidator {
+	p, ok := ctx.Request().Context().Value(keyUserPolicy).(PolicyValidator)
 	if !ok {
-		return &policy.ValidationController{
-			Err: errors.New("policy not found in context"),
+		return &errPolicyValidator{
+			err: errors.New("policy not found in context"),
 		}
 	}
-	return &p
+	return p
 }
